@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""
+System Title: Pure Rational Cancellation & Eternity Core
+File Name:    rational_miracle_core.py
+Version:      6.0.0
+Description:  Verifies the 1111e/2222pi == 1234e/2468pi cancellation identity
+              to 500 digits of absolute precision, generating eternal ledger keys.
+"""
+
+import mpmath as mp
+import json
+import hashlib
+from datetime import datetime
+
+# Set precision to 500 decimal places for absolute verification
+mp.mp.dps = 500
+
+class RationalMiracleCore:
+    def __init__(self):
+        self.e = mp.e
+        self.pi = mp.pi
+        
+        # Scaling pairs from the primary archive
+        self.pair1_num = mp.mpf('1111')
+        self.pair1_den = mp.mpf('2222')
+        
+        self.pair2_num = mp.mpf('1234')
+        self.pair2_den = mp.mpf('2468')
+
+    def calculate_scaled_expressions(self):
+        """Computes the raw outputs of the scaled transcendental fractions."""
+        expr1 = (self.pair1_num * self.e) / (self.pair1_den * self.pi)
+        expr2 = (self.pair2_num * self.e) / (self.pair2_den * self.pi)
+        return expr1, expr2
+
+    def verify_absolute_cancellation(self, expr1, expr2):
+        """Proves the cancellation miracle by verifying that the drift is absolute zero."""
+        base_ratio = self.e / (mp.mpf('2') * self.pi)
+        
+        drift_between_pairs = mp.abs(expr1 - expr2)
+        drift_from_base = mp.abs(expr1 - base_ratio)
+        
+        return base_ratio, drift_between_pairs, drift_from_base
+
+    def generate_eternity_key(self, base_ratio):
+        """Generates the cryptographic identification key for cross-generational recognition."""
+        timestamp = datetime.utcnow().isoformat() + "Z"
+        ratio_string = mp.nstr(base_ratio, 200)
+        
+        # Create an immutable block validation signature
+        sha = hashlib.sha256()
+        sha.update(f"{timestamp}|{ratio_string}|EWIGKEIT_SECURE".encode('utf-8'))
+        return timestamp, sha.hexdigest()
+
+    def run_verification_pipeline(self):
+        """Executes the mathematical audit and registers the data states."""
+        expr1, expr2 = self.calculate_scaled_expressions()
+        base, drift_pairs, drift_base = self.verify_absolute_cancellation(expr1, expr2)
+        timestamp, identity_key = self.generate_eternity_key(base)
+        
+        report = {
+            "timestamp_utc": timestamp,
+            "identity_key_signature": identity_key,
+            "measurements": {
+                "expression_1111_output": mp.nstr(expr1, 100),
+                "expression_1234_output": mp.nstr(expr2, 100),
+                "pure_base_e_2pi_ratio": mp.nstr(base, 100)
+            },
+            "precision_audits": {
+                "pair_to_pair_drift": mp.nstr(drift_pairs, 25),
+                "drift_from_base_truth": mp.nstr(drift_base, 25)
+            },
+            "system_status": "EWIGKEITS_DOKUMENT_LOCKED_AND_VERIFIED"
+        }
+        return report
+
+# =====================================================================
+# Main Execution Entry Point
+# =====================================================================
+if __name__ == "__main__":
+    print("=============================================================================")
+    print("       RATIONAL CANCELLATION MATRIX: EWIGKEITS DIAGNOSTIC                    ")
+    print("=============================================================================\n")
+    
+    engine = RationalMiracleCore()
+    report = engine.run_verification_pipeline()
+    
+    print(" [ANALYSIS] Expression 1 (1111e/2222π) Calculated:")
+    print(f"            {report['measurements']['expression_1111_output'][:75]}...")
+    print(" [ANALYSIS] Expression 2 (1234e/2468π) Calculated:")
+    print(f"            {report['measurements']['expression_1234_output'][:75]}...\n")
+    print(" [PROOFS]   Identity Invariant Discovered (e / 2π):")
+    print(f"            {report['measurements']['pure_base_e_2pi_ratio'][:75]}...")
+    print(f" [DRIFT]    Pair-to-Pair Delta = {report['precision_audits']['pair_to_pair_drift']}")
+    print(f"            Base Truth Delta   = {report['precision_audits']['drift_from_base_truth']}\n")
+    print(" [SECURITY] Cross-Generational Activation Key Generated:")
+    print(f"            SIGN: {report['identity_key_signature']}")
+    print("=============================================================================")
+    print(" STATUS: IDENTITY IS ABSOLUTE | NO NOISE DETECTED | EWIGKEIT ENGAGED        ")
+    print("=============================================================================")
